@@ -8,7 +8,16 @@ import { CourseGrid } from "@/components/course-grid";
 import { Button } from "@/components/ui/button";
 
 export default async function HomePage() {
-  let featuredCourses: Awaited<ReturnType<typeof prisma.course.findMany>> = [];
+  let featuredCourses: {
+    id: string;
+    title: string;
+    slug: string;
+    description: string;
+    thumbnail: string | null;
+    price: "FREE" | "PAID";
+    category: { name: string };
+    _count: { lessons: number };
+  }[] = [];
   try {
     featuredCourses = await prisma.course.findMany({
       where: { published: true },
