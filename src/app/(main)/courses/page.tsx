@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import prisma from "@/lib/prisma";
 import { CourseGrid } from "@/components/course-grid";
 import { SearchFilterBar } from "@/components/search-filter-bar";
