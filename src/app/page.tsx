@@ -8,15 +8,20 @@ import { CourseGrid } from "@/components/course-grid";
 import { Button } from "@/components/ui/button";
 
 export default async function HomePage() {
-  const featuredCourses = await prisma.course.findMany({
-    where: { published: true },
-    orderBy: { createdAt: "desc" },
-    take: 6,
-    include: {
-      category: { select: { name: true } },
-      _count: { select: { lessons: true } },
-    },
-  });
+  let featuredCourses: Awaited<ReturnType<typeof prisma.course.findMany>> = [];
+  try {
+    featuredCourses = await prisma.course.findMany({
+      where: { published: true },
+      orderBy: { createdAt: "desc" },
+      take: 6,
+      include: {
+        category: { select: { name: true } },
+        _count: { select: { lessons: true } },
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch courses:", error);
+  }
 
   return (
     <>
